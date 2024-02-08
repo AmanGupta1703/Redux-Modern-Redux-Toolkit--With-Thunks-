@@ -36,16 +36,31 @@ function reducer(state = initialState, action) {
 
 const store = createStore(reducer);
 
-store.dispatch({ type: "account/deposit", payload: 1000 });
-store.dispatch({ type: "account/withdraw", payload: 600 });
-store.dispatch({
-  type: "account/requestLoan",
-  payload: { amount: 20_000, purpose: "buy a car." },
-});
-store.dispatch({ type: "account/payLoan" });
+function deposit(amount) {
+  return { type: "account/deposit", payload: amount };
+}
+
+function withdraw(amount) {
+  return { type: "account/withdraw", payload: amount };
+}
+
+function requestLoan(amount, purpose) {
+  return {
+    type: "account/requestLoan",
+    payload: { amount, purpose },
+  };
+}
+
+function payLoan() {
+  return { type: "account/payLoan" };
+}
+
+store.dispatch(deposit(1000));
+store.dispatch(withdraw(600));
+store.dispatch(requestLoan(5600, "Buy a car."));
+store.dispatch(payLoan());
 
 console.log(store.getState());
-
 
 /***
  * Steps:
@@ -53,5 +68,5 @@ console.log(store.getState());
  * 2) install redux
  * 3) import createStore @deprecated
  * 4) initialize a store
- * 5) 
+ * 5) create action creator functions.
  */
