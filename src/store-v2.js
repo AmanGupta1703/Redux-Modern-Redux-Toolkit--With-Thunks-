@@ -1,4 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { applyMiddleware, combineReducers, createStore } from "redux";
+import { thunk } from "redux-thunk";
+import { composeWithDevTools } from "@redux-devtools/extension";
 
 import accountReducer from "./features/accounts/accountSlice";
 import customerReducer from "./features/customers/customerSlice";
@@ -6,9 +8,15 @@ import customerReducer from "./features/customers/customerSlice";
 // createstore accepts a single argument i.e root reducer,
 // to combine all the reducer and
 // and create a root reducer
-const store = configureStore({
-  reducer: { account: accountReducer, customer: customerReducer },
+const rootReducer = combineReducers({
+  account: accountReducer,
+  customer: customerReducer,
 });
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+);
 
 export default store;
 
